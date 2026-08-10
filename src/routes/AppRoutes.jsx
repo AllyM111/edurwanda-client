@@ -50,7 +50,7 @@ import AdminExams from "../pages/admin/AdminExams";
 import Users from "../pages/admin/Users";
 import Analytics from "../pages/admin/Analytics";
 import Profile from "../pages/admin/Profile";
-import Settings from "../pages/admin/Settings";
+import Settings from "../pages/admin/settings";
 import Media from "../pages/admin/Media";
 import YoutubeChannels from "../pages/admin/youtubeChannels";
 
