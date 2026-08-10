@@ -1,22 +1,53 @@
+
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 export default function AdminGuard({ children }) {
+  const { user, loading } = useAuth();
 
-  const {
-    user,
-    loading
-  } = useAuth();
+  // ==========================================
+  // CHECKING AUTHENTICATION
+  // ==========================================
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        Checking access...
+      <div
+        className="
+          min-h-screen
+          flex
+          items-center
+          justify-center
+          bg-gray-900
+          text-white
+        "
+      >
+        <div className="text-center">
+          <div
+            className="
+              w-10
+              h-10
+              border-4
+              border-gray-600
+              border-t-white
+              rounded-full
+              animate-spin
+              mx-auto
+              mb-4
+            "
+          />
+
+          <p className="text-gray-300">
+            Checking access...
+          </p>
+        </div>
       </div>
     );
   }
 
-  // Not logged in
+  // ==========================================
+  // NOT LOGGED IN
+  // ==========================================
+
   if (!user) {
     return (
       <Navigate
@@ -26,8 +57,15 @@ export default function AdminGuard({ children }) {
     );
   }
 
-  // Accept ADMIN or admin
+  // ==========================================
+  // CHECK USER ROLE
+  // ==========================================
+
   const role = user.role?.toUpperCase();
+
+  // ==========================================
+  // NOT ADMIN
+  // ==========================================
 
   if (role !== "ADMIN") {
     return (
@@ -37,6 +75,10 @@ export default function AdminGuard({ children }) {
       />
     );
   }
+
+  // ==========================================
+  // ADMIN ALLOWED
+  // ==========================================
 
   return children;
 }
