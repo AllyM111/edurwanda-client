@@ -1,4 +1,3 @@
-
 import {
   useEffect,
   useState,
@@ -21,8 +20,7 @@ import ProPdfReader from "../../components/pdf/ProPdfReader";
 
 const API_URL =
   import.meta.env.VITE_API_URL ||
-  "/api";
-
+  "https://edurwanda-server-production.up.railway.app";
 
 // ======================================
 // EXAM DETAIL
@@ -69,17 +67,30 @@ export default function ExamDetail() {
   }
 
   // ======================================
-  // DOWNLOAD EXAM
+  // OPEN READER
   // ======================================
 
-  function downloadExam() {
+  function openReader() {
     if (!exam?.fileUrl) {
       alert("Exam PDF unavailable");
       return;
     }
 
+    setReaderOpen(true);
+  }
+
+  // ======================================
+  // DOWNLOAD EXAM
+  // ======================================
+
+  function downloadExam() {
+    if (!exam?.id) {
+      alert("Exam ID is missing");
+      return;
+    }
+
     window.location.href =
-      `${API_URL}/exams/download/${exam.id}`;
+      `${API_URL}/api/exams/download/${exam.id}`;
   }
 
   // ======================================
@@ -96,6 +107,12 @@ export default function ExamDetail() {
           justify-center
           text-xl
         "
+        style={{
+          backgroundColor:
+            "var(--background-color)",
+          color:
+            "var(--text-color)",
+        }}
       >
         Loading exam...
       </div>
@@ -113,6 +130,12 @@ export default function ExamDetail() {
           text-center
           py-20
         "
+        style={{
+          backgroundColor:
+            "var(--background-color)",
+          color:
+            "var(--text-color)",
+        }}
       >
         <h1
           className="
@@ -124,7 +147,9 @@ export default function ExamDetail() {
         </h1>
 
         <button
-          onClick={() => navigate("/exams")}
+          onClick={() =>
+            navigate("/exams")
+          }
           className="
             mt-5
             bg-blue-600
@@ -159,7 +184,6 @@ export default function ExamDetail() {
           "var(--text-color)",
       }}
     >
-
       <div
         className="
           max-w-5xl
@@ -170,7 +194,9 @@ export default function ExamDetail() {
         {/* BACK BUTTON */}
 
         <button
-          onClick={() => navigate("/exams")}
+          onClick={() =>
+            navigate("/exams")
+          }
           className="
             mb-8
             bg-gray-900
@@ -294,9 +320,7 @@ export default function ExamDetail() {
           >
 
             <button
-              onClick={() =>
-                setReaderOpen(true)
-              }
+              onClick={openReader}
               className="
                 bg-blue-600
                 text-white
