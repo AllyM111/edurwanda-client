@@ -29,6 +29,8 @@ export default function ExamCard({ exam }) {
     const downloadUrl =
       `${API_URL}/api/exams/download/${exam.id}`;
 
+    console.log("EXAM DOWNLOAD:", downloadUrl);
+
     window.open(downloadUrl, "_blank");
   };
 
@@ -56,7 +58,7 @@ export default function ExamCard({ exam }) {
     >
 
       {/* ======================================
-          EXAM HEADER
+          HEADER
       ====================================== */}
 
       <div
@@ -99,7 +101,11 @@ export default function ExamCard({ exam }) {
         {/* DESCRIPTION */}
 
         <p
-          className="mt-2 text-sm line-clamp-3"
+          className="
+            mt-2
+            text-sm
+            line-clamp-3
+          "
           style={{
             color: "var(--muted-color)",
           }}
@@ -109,7 +115,7 @@ export default function ExamCard({ exam }) {
         </p>
 
         {/* ======================================
-            EXAM INFORMATION
+            INFORMATION
         ====================================== */}
 
         <div className="mt-5 space-y-2 text-sm">
