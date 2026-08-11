@@ -2,302 +2,146 @@ import {
   createContext,
   useContext,
   useState,
-  useEffect
+  useEffect,
 } from "react";
-
 
 import {
   loginUser,
   registerUser,
-  logoutUser
+  logoutUser,
 } from "../services/authService";
-
-
 
 const AuthContext = createContext(null);
 
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
 
+  const [loading, setLoading] = useState(true);
 
-export function AuthProvider({children}){
+  // =================================
+  // RESTORE SESSION
+  // =================================
 
+  useEffect(() => {
+    const restoreSession = () => {
+      try {
+        const token = localStorage.getItem("token");
+        const savedUser = localStorage.getItem("user");
 
-const [user,setUser] = useState(null);
+        if (!token || !savedUser) {
+          setUser(null);
+          setLoading(false);
+          return;
+        }
 
-const [loading,setLoading] = useState(true);
+        const parsedUser = JSON.parse(savedUser);
 
+        const fixedUser = {
+          ...parsedUser,
+          role: parsedUser.role?.toUpperCase(),
+        };
 
+        setUser(fixedUser);
 
+        localStorage.setItem(
+          "user",
+          JSON.stringify(fixedUser)
+        );
+      } catch (error) {
+        console.error(
+          "Failed to restore authentication:",
+          error
+        );
 
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
 
-// ============================
-// RESTORE SESSION
-// ============================
+        setUser(null);
+      }
 
-useEffect(()=>{
+      setLoading(false);
+    };
 
+    restoreSession();
+  }, []);
 
-const token =
-localStorage.getItem("token");
+  // =================================
+  // LOGIN
+  // =================================
 
+  const login = async (data) => {
+    const res = await loginUser(data);
 
-const savedUser =
-localStorage.getItem("user");
+    console.log("LOGIN RESPONSE:", res);
 
+    if (res?.token) {
+      localStorage.setItem(
+        "token",
+        res.token
+      );
+    }
 
+    if (res?.user) {
+      const fixedUser = {
+        ...res.user,
+        role: res.user.role?.toUpperCase(),
+      };
 
-if(token && savedUser){
+      localStorage.setItem(
+        "user",
+        JSON.stringify(fixedUser)
+      );
 
+      setUser(fixedUser);
+    }
 
-try{
+    return res;
+  };
 
+  // =================================
+  // REGISTER
+  // =================================
 
-const parsedUser =
-JSON.parse(savedUser);
+  const register = async (data) => {
+    return await registerUser(data);
+  };
 
+  // =================================
+  // LOGOUT
+  // =================================
 
-// normalize role
+  const logout = () => {
+    logoutUser();
 
-const fixedUser = {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
 
-...parsedUser,
+    setUser(null);
+  };
 
-role:
-parsedUser.role?.toUpperCase()
+  // =================================
+  // PROVIDER
+  // =================================
 
-};
-
-
-
-setUser(fixedUser);
-
-
-
-localStorage.setItem(
-"user",
-JSON.stringify(fixedUser)
-);
-
-
-
-}catch(error){
-
-
-console.log(
-"Invalid saved user"
-);
-
-
-
-localStorage.removeItem("user");
-
-localStorage.removeItem("token");
-
-
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        login,
+        register,
+        logout,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
-
-}
-
-
-
-setLoading(false);
-
-
-
-},[]);
-
-
-
-
-
-
-
-
-// ============================
-// LOGIN
-// ============================
-
-const login = async(data)=>{
-
-
-const res =
-await loginUser(data);
-
-
-
-console.log(
-"LOGIN RESPONSE:",
-res
-);
-
-
-
-if(res.token){
-
-
-localStorage.setItem(
-"token",
-res.token
-);
-
-
-}
-
-
-
-
-if(res.user){
-
-
-
-const fixedUser = {
-
-
-...res.user,
-
-
-role:
-res.user.role?.toUpperCase()
-
-
-};
-
-
-
-
-localStorage.setItem(
-
-"user",
-
-JSON.stringify(fixedUser)
-
-);
-
-
-
-setUser(fixedUser);
-
-
-
-}
-
-
-
-return res;
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// ============================
-// REGISTER
-// ============================
-
-const register = async(data)=>{
-
-
-return await registerUser(data);
-
-
-};
-
-
-
-
-
-
-
-
-
-// ============================
-// LOGOUT
-// ============================
-
-const logout = ()=>{
-
-
-logoutUser();
-
-
-
-localStorage.removeItem(
-"token"
-);
-
-
-
-localStorage.removeItem(
-"user"
-);
-
-
-
-setUser(null);
-
-
-
-};
-
-
-
-
-
-
-
-
-return (
-
-<AuthContext.Provider
-
-value={{
-
-user,
-
-loading,
-
-login,
-
-register,
-
-logout
-
-}}
-
->
-
-
-{children}
-
-
-</AuthContext.Provider>
-
-
-);
-
-
-
-}
-
-
-
-
-
-
-
-
-
-export function useAuth(){
-
-
-return useContext(AuthContext);
-
-
+// =================================
+// HOOK
+// =================================
+
+export function useAuth() {
+  return useContext(AuthContext);
 }

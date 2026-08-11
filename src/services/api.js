@@ -1,16 +1,33 @@
+
 import axios from "axios";
+
+// =================================
+// API BASE URL
+// =================================
+
+// Production:
+// VITE_API_URL=https://edurwanda-server-production.up.railway.app
+//
+// Local development:
+// VITE_API_URL=http://localhost:5000
+
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:5000";
 
 // =================================
 // API INSTANCE
 // =================================
+
 const api = axios.create({
-  baseURL: "https://edurwanda-server-production.up.railway.app/api",
+  baseURL: `${API_URL}/api`,
   timeout: 30000,
 });
 
 // =================================
 // REQUEST INTERCEPTOR
 // =================================
+
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -19,7 +36,7 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    // Do not manually set Content-Type for FormData uploads
+    // Do not manually set Content-Type for FormData
     if (!(config.data instanceof FormData)) {
       config.headers["Content-Type"] = "application/json";
     }
@@ -34,6 +51,7 @@ api.interceptors.request.use(
 // =================================
 // RESPONSE INTERCEPTOR
 // =================================
+
 api.interceptors.response.use(
   (response) => {
     return response;
@@ -43,14 +61,10 @@ api.interceptors.response.use(
     const status = error.response?.status;
 
     if (status === 401) {
-      console.warn(
-        "Authentication expired. Please login again."
-      );
+      console.warn("Unauthorized API request.");
 
       localStorage.removeItem("token");
       localStorage.removeItem("user");
-
-      window.location.href = "/login";
     }
 
     if (status === 403) {
@@ -61,7 +75,8 @@ api.interceptors.response.use(
 
     if (status === 404) {
       console.warn(
-        "Requested resource not found."
+        "Requested resource not found:",
+        error.config?.url
       );
     }
 

@@ -11,35 +11,10 @@ export default function AdminGuard({ children }) {
 
   if (loading) {
     return (
-      <div
-        className="
-          min-h-screen
-          flex
-          items-center
-          justify-center
-          bg-gray-900
-          text-white
-        "
-      >
-        <div className="text-center">
-          <div
-            className="
-              w-10
-              h-10
-              border-4
-              border-gray-600
-              border-t-white
-              rounded-full
-              animate-spin
-              mx-auto
-              mb-4
-            "
-          />
-
-          <p className="text-gray-300">
-            Checking access...
-          </p>
-        </div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-900">
+        <p className="text-gray-300">
+          Checking access...
+        </p>
       </div>
     );
   }
