@@ -1,194 +1,101 @@
 <!doctype html>
 <html lang="en">
-
-<head>
-
-  <meta charset="UTF-8" />
-
-
-  <!-- Favicon -->
-  <link
-    rel="icon"
-    type="image/png"
-    href="/favicon.png"
-  />
-
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
-
-
-
-  <!-- Website Title -->
-
-  <title>
-    EduRwanda - Rwanda Digital Learning Platform
-  </title>
-
-
-
-
-  <!-- SEO Description -->
-
-  <meta
-
-    name="description"
-
-    content="
-    EduRwanda is a digital learning platform
-    providing Rwanda students with books,
-    national examinations, past papers,
-    and educational resources.
-    "
-
-  />
-
-
-
-  <meta
-
-    name="keywords"
-
-    content="
-    EduRwanda,
-    Rwanda education,
-    Rwanda books,
-    Rwanda national exams,
-    past papers Rwanda,
-    student resources,
-    online learning Rwanda
-    "
-
-  />
-
-
-
-
-  <!-- Author -->
-
-  <meta
-
-    name="author"
-
-    content="EduRwanda"
-
-  />
-
-
-
-
-
-  <!-- Open Graph (Facebook, WhatsApp, LinkedIn) -->
-
-
-  <meta
-
-    property="og:title"
-
-    content="
-    EduRwanda - Rwanda Digital Learning Platform
-    "
-
-  />
-
-
-  <meta
-
-    property="og:description"
-
-    content="
-    Access Rwanda student books,
-    national examinations,
-    and digital learning resources.
-    "
-
-  />
-
-
-  <meta
-
-    property="og:image"
-
-    content="/og-image.png"
-
-  />
-
-
-  <meta
-
-    property="og:type"
-
-    content="website"
-
-  />
-
-
-
-  <!-- Twitter Card -->
-
-
-  <meta
-
-    name="twitter:card"
-
-    content="summary_large_image"
-
-  />
-
-
-  <meta
-
-    name="twitter:title"
-
-    content="EduRwanda - Rwanda Digital Learning Platform"
-
-  />
-
-
-  <meta
-
-    name="twitter:description"
-
-    content="
-    Books, exams, and educational resources
-    for Rwanda students.
-    "
-
-  />
-
-
-  <meta
-
-    name="twitter:image"
-
-    content="/og-image.png"
-
-  />
-
-
-
-</head>
-
-
-
-<body>
-
-
-  <div id="root"></div>
-
-
-  <script
-
-    type="module"
-
-    src="/src/main.jsx"
-
-  ></script>
-
-
-</body>
-
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary SEO -->
+    <title>EduRwanda - Rwanda Digital Learning Platform</title>
+    <meta
+      name="description"
+      content="EduRwanda is a digital learning platform giving Rwandan students access to textbooks, national examinations, past papers and other study resources."
+    />
+    <meta
+      name="keywords"
+      content="EduRwanda, Rwanda education, Rwanda books, Rwanda national exams, past papers Rwanda, student resources, online learning Rwanda"
+    />
+    <meta name="author" content="EduRwanda" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#0B5ED7" />
+    <meta name="geo.region" content="RW" />
+    <meta name="geo.placename" content="Rwanda" />
+    <link rel="canonical" href="%VITE_SITE_URL%/" />
+
+    <!-- Icons and PWA manifest -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Faster loading of uploaded images and covers -->
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
+
+    <!-- Open Graph (Facebook, WhatsApp, LinkedIn, Telegram) -->
+    <meta property="og:site_name" content="EduRwanda" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="%VITE_SITE_URL%/" />
+    <meta property="og:title" content="EduRwanda - Rwanda Digital Learning Platform" />
+    <meta
+      property="og:description"
+      content="Textbooks, national examinations, past papers and digital learning resources for Rwandan students."
+    />
+    <meta property="og:image" content="%VITE_SITE_URL%/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="EduRwanda - books, national exams and past papers for Rwanda" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="rw_RW" />
+
+    <!-- Twitter / X card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="EduRwanda - Rwanda Digital Learning Platform" />
+    <meta
+      name="twitter:description"
+      content="Textbooks, national examinations, past papers and digital learning resources for Rwandan students."
+    />
+    <meta name="twitter:image" content="%VITE_SITE_URL%/og-image.png" />
+    <meta name="twitter:image:alt" content="EduRwanda - books, national exams and past papers for Rwanda" />
+
+    <!-- Structured data (Google rich results) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "%VITE_SITE_URL%/#organization",
+            "name": "EduRwanda",
+            "url": "%VITE_SITE_URL%/",
+            "logo": "%VITE_SITE_URL%/android-chrome-512x512.png",
+            "areaServed": "RW"
+          },
+          {
+            "@type": "WebSite",
+            "@id": "%VITE_SITE_URL%/#website",
+            "url": "%VITE_SITE_URL%/",
+            "name": "EduRwanda",
+            "inLanguage": "en",
+            "publisher": { "@id": "%VITE_SITE_URL%/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "%VITE_SITE_URL%/search?q={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+
+  <body>
+    <noscript>
+      EduRwanda needs JavaScript to run. Please enable JavaScript in your browser.
+    </noscript>
+
+    <div id="root"></div>
+
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
